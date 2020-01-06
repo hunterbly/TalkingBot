@@ -13,6 +13,7 @@ bot.
 """
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler, ConversationHandler
+import hotdog
 import logging
 
 
@@ -125,4 +126,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    hotdog.testing()
