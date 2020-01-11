@@ -23,8 +23,14 @@ def testing():
 
     return(res)
 
+def postit(method):
+    def posted(*args, **kw):
+        func_name = method(*args, **kw)
+        print(kw)
+        return(func_name)
+    return posted
 
-
+@postit
 def get_signal_performance(code):
   ## Get singal performance of a particular stock
   ##
@@ -38,5 +44,5 @@ def get_signal_performance(code):
   ##   df = get_hit_signal(code = 1)
 
   func_name = inspect.stack()[0][3]
-  
+    
   return(func_name)
