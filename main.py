@@ -1,6 +1,8 @@
+from src.hotdog import *
+
 def main():
     res = testing()
-    print('abc')
+    print(res)
 
 if __name__ == '__main__':
     main()
