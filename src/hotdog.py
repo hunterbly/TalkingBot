@@ -11,6 +11,26 @@ CONST_ENDPOINT = '206.189.149.240'
 CONST_PORT = 4000
 CONST_LIBRARY = 'HotDog'
 
+def convert_dict_key(old_dict):
+
+    ## Convert dictionary with key in underscore format to dot foramt.
+    ## Used for R param conversion
+    ##
+    ## Args:
+    ##   old_dict (dict): Old dictionary with underscore as key
+    ##
+    ## Returns:
+    ##   new_dict (dict): New dictionary with dot separated key
+    ##
+    ## Example:
+    ##   old_dict = {'ref_date': '2020-01-10'}
+    ##   new_dict = convert_dict_key(old_dict)
+    
+    new_keys = [k.replace('_', '.') for k in old_dict.keys()]
+    new_dict = dict(zip(new_keys, old_dict.values()))
+    return(new_dict)
+
+
 def testing():
     url = "http://206.189.149.240:4000/ocpu/library/HotDog/R/test_func/json"
 
