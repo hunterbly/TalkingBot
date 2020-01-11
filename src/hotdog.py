@@ -50,9 +50,15 @@ def postit(method):
                                                               CONST_PORT,
                                                               CONST_LIBRARY,
                                                               func_name)
-        payload = kw
+
+        print(url)
+        # payload = convert_dict_key(kw)
+        payload = {'ref_date': '\'2020-01-10\'',
+                   'option_only': 'TRUE'}
         print(payload)
-        headers = {}
+        headers = headers = {
+           'Content-Type': 'multipart/form-data; boundary=--------------------------251655138943417170856762'
+        }
 
         # Send request to R OpenCPU server
         response = requests.request("POST", url, headers=headers, data = payload)
