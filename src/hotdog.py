@@ -26,8 +26,15 @@ def testing():
 def postit(method):
     def posted(*args, **kw):
         func_name = method(*args, **kw)
-        print(kw)
-        return(func_name)
+
+        url = "http://206.189.149.240:4000/ocpu/library/HotDog/R/get_signal_performance/json"
+        payload = {'code': '1'}
+        headers = {}
+
+        response = requests.request("POST", url, headers=headers, data = payload)
+        res = response.text.encode('utf8')
+
+        return(res)
     return posted
 
 @postit
