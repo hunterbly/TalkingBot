@@ -11,3 +11,16 @@ def testing():
     res = response.text.encode('utf8')
 
     return(res)
+
+def get_signal_performance(code):
+  ## Get singal performance of a particular stock
+  ##
+  ## Args:
+  ##  code (num):
+  ##
+  ## Returns:
+  ##  res (Dataframe): 
+  ##
+  ## Example:
+  ##   df = get_hit_signal(code = 1)
+  
