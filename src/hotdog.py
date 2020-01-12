@@ -1,5 +1,6 @@
 import requests
 import inspect
+import urllib
 
 #####################################
 ###                               ###
@@ -32,10 +33,11 @@ def convert_dict_key(old_dict):
 
 
 def testing():
-    url = "http://206.189.149.240:4000/ocpu/library/HotDog/R/test_func/json"
 
-    payload = {}
-    headers= {}
+    url = "http://206.189.149.240:4000/ocpu/library/HotDog/R/load_hit_signal/json"
+
+    payload = 'ref_date=%272020-01-10%27&option_only=true'
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
     response = requests.request("POST", url, headers=headers, data = payload)
 
@@ -51,14 +53,11 @@ def postit(method):
                                                               CONST_LIBRARY,
                                                               func_name)
 
-        print(url)
         # payload = convert_dict_key(kw)
-        payload = {'ref_date': '\'2020-01-10\'',
-                   'option_only': 'TRUE'}
+        payload = urllib.parse.urlencode(kw)
+                  
         print(payload)
-        headers = headers = {
-           'Content-Type': 'multipart/form-data; boundary=--------------------------251655138943417170856762'
-        }
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
         # Send request to R OpenCPU server
         response = requests.request("POST", url, headers=headers, data = payload)
