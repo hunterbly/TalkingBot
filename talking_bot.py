@@ -1,6 +1,7 @@
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler, ConversationHandler
 import logging
+from datetime import date, datetime
 from src.hotdog import *
 from src.util import *
 
@@ -46,13 +47,27 @@ def start(bot, update):
 def test(bot, update):
 
     # Try parsing user input 
-    input_date = update.message.text
-    print(input_date)
+    input_str = update.message.text
 
-    # res = load_hit_signal(ref_date = '2020-01-10')
-    # print(res)
-    
-    update.message.reply_text(date)
+    if(len(input_str.split()) > 1):
+       input_str = input_str.split()[1]  # First argument
+       
+    else:
+       input_str = date.today().strftime("%Y%m%d")
+       
+    try:
+       ref_date = datetime.strptime(input_str, '%Y%m%d')
+       ref_str = ref_date.strftime('%Y-%m-%d')
+
+       df = load_hit_signal(ref_date = ref_str)
+       df.drop(columns=['date'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
+
+       table_html = parse_df(df)
+       update.message.reply_text(table_html, parse_mode='HTML')
+       
+    except:
+       error = 'Please input date in YYYYMMDD format'
+       update.message.reply_text(error)
 
 def table(bot, update):
 
