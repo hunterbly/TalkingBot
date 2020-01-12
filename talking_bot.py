@@ -2,6 +2,7 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler, ConversationHandler
 import logging
 from src.hotdog import *
+from src.util import *
 
 
 # Enable logging
