@@ -46,7 +46,7 @@ def json_to_df(json):
     except:
         return(json)  # Return error message from R
     
-    return(json)
+    return(df)
 
 def testing():
 
