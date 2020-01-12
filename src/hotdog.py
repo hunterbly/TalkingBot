@@ -1,6 +1,7 @@
 import requests
 import inspect
 import urllib
+import pandas as pd
 
 #####################################
 ###                               ###
@@ -12,20 +13,23 @@ CONST_ENDPOINT = '206.189.149.240'
 CONST_PORT = 4000
 CONST_LIBRARY = 'HotDog'
 
-def convert_dict_key(old_dict):
+def convert_dict_format(old_dict):
 
     ## Convert dictionary with key in underscore format to dot foramt.
-    ## Used for R param conversion
+    ## And values to be quoted. Used for R param conversion
     ##
     ## Args:
     ##   old_dict (dict): Old dictionary with underscore as key
     ##
     ## Returns:
-    ##   new_dict (dict): New dictionary with dot separated key
+    ##   new_dict (dict): New dictionary with dot separated key and quoted values
     ##
     ## Example:
-    ##   old_dict = {'ref_date': '2020-01-10'}
+    ##   old_dict = {'ref.date': '2020-01-10'}
     ##   new_dict = convert_dict_key(old_dict)
+    ##
+    ## TODO:
+    ##   1. Based on type of values, e.g. not quote bool
     
     new_keys = [k.replace('_', '.') for k in old_dict.keys()]
     new_values = ["'{}'".format(str(v)) for v in old_dict.values()]
@@ -54,9 +58,8 @@ def postit(method):
                                                               CONST_LIBRARY,
                                                               func_name)
 
-        kw = convert_dict_key(kw)
+        kw = convert_dict_format(kw)
         payload = urllib.parse.urlencode(kw)
-        print(payload)
         
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
