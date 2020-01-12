@@ -1,1 +1,0 @@
-root@telegram_server.26167
