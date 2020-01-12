@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.swp
 # C extensions
 *.so
 
@@ -105,3 +105,4 @@ ENV/
 .vscode/
 
 .ftpconfig
+test.py
