@@ -28,7 +28,8 @@ def convert_dict_key(old_dict):
     ##   new_dict = convert_dict_key(old_dict)
     
     new_keys = [k.replace('_', '.') for k in old_dict.keys()]
-    new_dict = dict(zip(new_keys, old_dict.values()))
+    new_values = ["'{}'".format(str(v)) for v in old_dict.values()]
+    new_dict = dict(zip(new_keys, new_values))
     return(new_dict)
 
 
@@ -53,10 +54,10 @@ def postit(method):
                                                               CONST_LIBRARY,
                                                               func_name)
 
-        # payload = convert_dict_key(kw)
+        kw = convert_dict_key(kw)
         payload = urllib.parse.urlencode(kw)
-                  
         print(payload)
+        
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
         # Send request to R OpenCPU server
