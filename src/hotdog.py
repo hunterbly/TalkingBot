@@ -36,6 +36,17 @@ def convert_dict_format(old_dict):
     new_dict = dict(zip(new_keys, new_values))
     return(new_dict)
 
+def json_to_df(json):
+
+    ## json to dataframe with id column dropped
+    
+    try:
+        df = pd.read_json(json)
+        df.drop(columns=['id'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
+    except:
+        return(json)  # Return error message from R
+    
+    return(json)
 
 def testing():
 
@@ -67,7 +78,8 @@ def postit(method):
         response = requests.request("POST", url, headers=headers, data = payload)
         res = response.text.encode('utf8')
 
-        return(res)
+        df = json_to_df(res)
+        return(df)
     return posted
 
 @postit
