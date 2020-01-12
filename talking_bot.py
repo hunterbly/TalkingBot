@@ -1,19 +1,7 @@
-"""Main module."""
-
-"""Simple Bot to reply to Telegram messages.
-This program is dedicated to the public domain under the CC0 license.
-This Bot uses the Updater class to handle the bot.
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-Usage:
-Basic Echobot example, repeats messages.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
-"""
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler, ConversationHandler
 import logging
+from src.hotdog import *
 
 
 # Enable logging
@@ -55,9 +43,9 @@ def start(bot, update):
     update.message.reply_text('Test Hi!')
 
 def test(bot, update):
-    a = testing()
-    print(a)
-    update.message.reply_text('Help!')
+    res = load_hit_signal(ref_date = '2020-01-10')
+    print(res)
+    update.message.reply_text(res.shape[0])
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
