@@ -64,13 +64,9 @@ def test(bot, update):
 
 def table(bot, update):
 
-   table_html = """<pre>
-   | Tables   |      Are      |  Cool |
-   |----------|:-------------:|------:|
-   | col 1 is |  left-aligned | $1600 |
-   | col 2 is |    centered   |   $12 |
-   | col 3 is | right-aligned |    $1 |
-   </pre>"""
+   df = load_hit_signal(ref_date = '2020-01-10')
+   table_html = parse_df(df)
+
    update.message.reply_text(table_html, parse_mode='HTML')
 
 def table2(bot, update):
