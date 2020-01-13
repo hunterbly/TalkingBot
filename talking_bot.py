@@ -4,7 +4,7 @@ import logging
 from datetime import date, datetime
 from src.hotdog import *
 from src.util import *
-
+import pandas as pd
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -58,16 +58,22 @@ def test(bot, update):
     try:
        ref_date = datetime.strptime(input_str, '%Y%m%d')
        ref_str = ref_date.strftime('%Y-%m-%d')
-
-       df = load_hit_signal(ref_date = ref_str)
-       df.drop(columns=['date'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
-
-       table_html = parse_df(df)
-       update.message.reply_text(table_html, parse_mode='HTML')
+       print(ref_str)
        
-    except:
-       error = 'Please input date in YYYYMMDD format'
-       update.message.reply_text(error)
+       df = load_hit_signal(ref_date = ref_str)
+#      df.drop(columns=['date'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
+
+       if isinstance(df, pd.DataFrame):
+           table_html = parse_df(df)
+           update.message.reply_text(table_html, parse_mode='HTML')
+       else:
+           err_msg = df.decode("utf-8")
+           update.message.reply_text(err_msg)
+       
+    except Exception as e:
+        print(e)
+        error = 'Please input date in YYYYMMDD format'
+        update.message.reply_text(error)
 
 def table(bot, update):
 
