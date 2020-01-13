@@ -1,4 +1,5 @@
 from tabulate import tabulate
+import pandas as pd
 
 def util_test():
     return("utility")
@@ -6,7 +7,10 @@ def util_test():
 def parse_df(df):
 
     ## parse dataframe to tabula format to be displayed in telegram
-
-    res = tabulate(df, tablefmt = "psql", headers="keys", showindex="never")
-    res = "<pre>{}</pre>".format(res)
+    if isinstance(df, pd.Dataframe):
+        res = tabulate(df, tablefmt = "psql", headers="keys", showindex="never")
+        res = "<pre>{}</pre>".format(res)
+    else:
+        err_msg = df
+        res = err_msg
     return(res)
