@@ -61,7 +61,6 @@ def test(bot, update):
        print(ref_str)
        
        df = load_hit_signal(ref_date = ref_str)
-#      df.drop(columns=['date'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
 
        if isinstance(df, pd.DataFrame):
            table_html = parse_df(df)
