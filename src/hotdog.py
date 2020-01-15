@@ -77,6 +77,7 @@ def postit(method):
         # Send request to R OpenCPU server
         response = requests.request("POST", url, headers=headers, data = payload)
         res = response.text.encode('utf8')
+        # res = response.text
 
         df = json_to_df(res)
         return(df)

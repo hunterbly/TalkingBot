@@ -1,8 +1,10 @@
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove)
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler, ConversationHandler
 import logging
+from datetime import date, datetime
 from src.hotdog import *
-
+from src.util import *
+import pandas as pd
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -42,48 +44,50 @@ def start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Test Hi!')
 
-def test(bot, update):
-    res = load_hit_signal(ref_date = '2020-01-10')
-    print(res)
+def testing(bot, update):
+    str_test = "\u5927\u967d\u71ed".encode('utf-8')
+    print(str_test)
+    update.message.reply_text(str_test)
     
-#   update.message.reply_text(res.shape[0])
-#   update.message.reply_text(res.style.render(), parse_mode='HTML')
-    some_html = """<html><style  type="text/css" >
-</style><table id="T_8c339870_34f3_11ea_adac_0242ac110006" ><thead>    <tr>        <th class="blank level0" ></th>        <th class="col_heading level0 col0" >code</th>        <th class="col_heading level0 col1" >date</th>        <th class="col_heading level0 col2" >signal</th>        <th class="col_heading level0 col3" >hit</th>    </tr></thead><tbody>
-                <tr>
-                        <th id="T_8c339870_34f3_11ea_adac_0242ac110006level0_row0" class="row_heading level0 row0" >0</th>
-                        <td id="T_8c339870_34f3_11ea_adac_0242ac110006row0_col0" class="data row0 col0" >1918</td>
-                        <td id="T_8c339870_34f3_11ea_adac_0242ac110006row0_col1" class="data row0 col1" >2020-01-10 00:00:00</td>
-                        <td id="T_8c339870_34f3_11ea_adac_0242ac110006row0_col2" class="data row0 col2" >s_bear_stick</td>
-                        <td id="T_8c339870_34f3_11ea_adac_0242ac110006row0_col3" class="data row0 col3" >1</td>
-            </tr>
-    </tbody></table>  
-</html>"""
-    update.message.reply_text(some_html, parse_mode='HTML')
+def test(bot, update):
+
+    # Try parsing user input 
+    input_str = update.message.text
+
+    if(len(input_str.split()) > 1):
+       input_str = input_str.split()[1]  # First argument
+       
+    else:
+       input_str = date.today().strftime("%Y%m%d")
+       
+    try:
+       ref_date = datetime.strptime(input_str, '%Y%m%d')
+       ref_str = ref_date.strftime('%Y-%m-%d')
+       print(ref_str)
+       
+       df = load_hit_signal(ref_date = ref_str)
+
+       if isinstance(df, pd.DataFrame):
+           table_html = parse_df(df)
+           update.message.reply_text(table_html, parse_mode='HTML')
+       else:
+           err_msg = df.decode("utf-8")
+           update.message.reply_text(err_msg)
+       
+    except Exception as e:
+        print(e)
+        error = 'Please input date in YYYYMMDD format'
+        update.message.reply_text(error)
 
 def table(bot, update):
 
-   table_html = """<pre>
-   | Tables   |      Are      |  Cool |
-   |----------|:-------------:|------:|
-   | col 1 is |  left-aligned | $1600 |
-   | col 2 is |    centered   |   $12 |
-   | col 3 is | right-aligned |    $1 |
-   </pre>"""
+   df = load_hit_signal(ref_date = '2020-01-10')
+   df.drop(columns=['date'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
+
+   table_html = parse_df(df)
+
    update.message.reply_text(table_html, parse_mode='HTML')
 
-def table2(bot, update):
-    html = """
-    <table>
-    <tbody>
-    <tr><th>item  </th><th style="text-align: right;">  qty</th></tr>
-    <tr><td>spam  </td><td style="text-align: right;">   42</td></tr>
-    <tr><td>eggs  </td><td style="text-align: right;">  451</td></tr>
-    <tr><td>bacon </td><td style="text-align: right;">    0</td></tr>
-    </tbody>
-    </table>
-    """
-    update.message.reply_text(html, parse_mode='HTML')
    
 def help(bot, update):
     """Send a message when the command /help is issued."""
@@ -120,8 +124,8 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("test", test))
+    dp.add_handler(CommandHandler("testing", testing))
     dp.add_handler(CommandHandler("table", table))
-    dp.add_handler(CommandHandler("table2", table2))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("lunch", lunch))
 
