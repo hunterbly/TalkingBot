@@ -44,6 +44,11 @@ def start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Test Hi!')
 
+def testing(bot, update):
+    str_test = "\u5927\u967d\u71ed".encode('utf-8')
+    print(str_test)
+    update.message.reply_text(str_test)
+    
 def test(bot, update):
 
     # Try parsing user input 
@@ -119,6 +124,7 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("test", test))
+    dp.add_handler(CommandHandler("testing", testing))
     dp.add_handler(CommandHandler("table", table))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("lunch", lunch))
