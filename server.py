@@ -28,10 +28,12 @@ def typing(func):
 
 def test(update, context):
     """Send a message when the command /test is issued."""
-    print(update)
-    print(context)
-    update.message.reply_text('Test!')
-    # chat_id = bot.get_updates()[-1].message.chat_id
+
+    msg = u'\u9999\u6E2F'
+    msg = u"\u5927\u967d\u71ed"
+    a = (u''.join(msg).strip())
+    update.message.reply_text(a)
+
 
 @typing
 def testing(update, context):
