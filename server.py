@@ -1,5 +1,7 @@
 import logging
 from functools import wraps
+from src.hotdog import *
+from src.util import *
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ChatAction
 
@@ -29,10 +31,10 @@ def typing(func):
 def test(update, context):
     """Send a message when the command /test is issued."""
 
-    msg = u'\u9999\u6E2F'
-    msg = u"\u5927\u967d\u71ed"
-    a = (u''.join(msg).strip())
-    update.message.reply_text(a)
+    df = load_hit_signal(ref_date = '2020-01-10')
+    table_html = print_df(df)
+
+    update.message.reply_text(table_html)
 
 
 @typing
