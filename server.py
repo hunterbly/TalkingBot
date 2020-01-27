@@ -36,17 +36,22 @@ def test(update, context):
 
     update.message.reply_text(table_html)
 
-
 @typing
 def testing(update, context):
     """Send a message when the command /testing is issued."""
     update.message.reply_text('Testing!')
 
+@typing
 def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
 
+@typing
 def status(update, context):
+    update.message.reply_text('Hi!')
+
+@typing
+def dummy(update, context):
     update.message.reply_text('Hi!')
     
 #####################
@@ -64,6 +69,7 @@ def main():
     dp.add_handler(CommandHandler("test", test))
     dp.add_handler(CommandHandler("testing", testing))
     dp.add_handler(CommandHandler("status", status))
+    dp.add_handler(CommandHandler("dummy", dummy))
     
     # Start the Bot
     updater.start_polling()
