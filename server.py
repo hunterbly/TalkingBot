@@ -56,14 +56,10 @@ def dummy(update, context):
     # msg = "\u5927\u967d\u71ed"
     # a = ''.join(msg).strip()
 
-    msg = """
-    <b>Example message</b>
-    <b>Example message 2</b>
-    <b>\u5927\u967d\u71ed</b>
-    """
-    
-    a = msg
-    update.message.reply_text(a, parse_mode = ParseMode.HTML)
+    df = check_cronjob()
+    msg = print_df(df)
+
+    update.message.reply_text(msg, parse_mode = ParseMode.HTML)
     
 #####################
 # Main              #  
