@@ -15,21 +15,23 @@ CONST_LIBRARY = 'HotDog'
 
 def convert_dict_format(old_dict):
 
-    ## Convert dictionary with key in underscore format to dot foramt.
-    ## And values to be quoted. Used for R param conversion
-    ##
-    ## Args:
-    ##   old_dict (dict): Old dictionary with underscore as key
-    ##
-    ## Returns:
-    ##   new_dict (dict): New dictionary with dot separated key and quoted values
-    ##
-    ## Example:
-    ##   old_dict = {'ref.date': '2020-01-10'}
-    ##   new_dict = convert_dict_key(old_dict)
-    ##
-    ## TODO:
-    ##   1. Based on type of values, e.g. not quote bool
+    """
+    Convert dictionary with key in underscore format to dot foramt.
+    And values to be quoted. Used for R param conversion
+    
+    Args:
+      old_dict (dict): Old dictionary with underscore as key
+    
+    Returns:
+      new_dict (dict): New dictionary with dot separated key and quoted values
+    
+    Example:
+      old_dict = {'ref.date': '2020-01-10'}
+      new_dict = convert_dict_key(old_dict)
+    
+    TODO:
+      1. Based on type of values, e.g. not quote bool
+    """
     
     new_keys = [k.replace('_', '.') for k in old_dict.keys()]
     new_values = ["'{}'".format(str(v)) for v in old_dict.values()]
@@ -38,7 +40,7 @@ def convert_dict_format(old_dict):
 
 def json_to_df(json):
 
-    ## json to dataframe with id column dropped
+    json to dataframe with id column dropped
     
     try:
         df = pd.read_json(json)
@@ -85,16 +87,19 @@ def postit(method):
 
 @postit
 def get_signal_performance(code):
-  ## Get singal performance of a particular stock
-  ##
-  ## Args:
-  ##  code (num):
-  ##
-  ## Returns:
-  ##  res (Dataframe): 
-  ##
-  ## Example:
-  ##   df = get_hit_signal(code = 1)
+    
+   """
+   Get singal performance of a particular stock
+
+   Args:
+     code (num):
+  
+   Returns:
+     res (Dataframe): 
+  
+   Example:
+     df = get_hit_signal(code = 1)
+   """
 
   func_name = inspect.stack()[0][3]
   return(func_name)
@@ -102,18 +107,20 @@ def get_signal_performance(code):
 @postit
 def load_hit_signal(ref_date, option_only = True):
 
-  ## load signal hit history in database.
-  ## Return all or option only signal with wide or long format
-  ##
-  ## Args:
-  ##  ref_date (str): Date in YYYY-MM-DD format, e.g. 2018-01-01
-  ##  option_only (bool): Specify whether the signal are for option only stocks. Default true
-  ##
-  ## Returns:
-  ##  df.signal (Dataframe): Stock price dataframe with calculated signal in the input date only
-  ##
-  ## Example:
-  ##   get_hit_signal(ref_date = '2020-01-10')
-
+  """
+  load signal hit history in database.
+  Return all or option only signal with wide or long format
+  
+  Args:
+   ref_date (str): Date in YYYY-MM-DD format, e.g. 2018-01-01
+   option_only (bool): Specify whether the signal are for option only stocks. Default true
+  
+  Returns:
+   df.signal (Dataframe): Stock price dataframe with calculated signal in the input date only
+  
+  Example:
+    get_hit_signal(ref_date = '2020-01-10')
+  """
+    
   func_name = inspect.stack()[0][3]
   return(func_name)
