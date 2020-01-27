@@ -3,7 +3,7 @@ from functools import wraps
 from src.hotdog import *
 from src.util import *
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from telegram import ChatAction
+from telegram import ChatAction, ParseMode
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -52,10 +52,18 @@ def status(update, context):
 
 @typing
 def dummy(update, context):
-    txt = '\u9999\u6e2f'
-    msg = ''.join(txt).encode('utf-8')
-    print(msg)
-    update.message.reply_text(msg)
+
+    # msg = "\u5927\u967d\u71ed"
+    # a = ''.join(msg).strip()
+
+    msg = """
+    <b>Example message</b>
+    <b>Example message 2</b>
+    <b>\u5927\u967d\u71ed</b>
+    """
+    
+    a = msg
+    update.message.reply_text(a, parse_mode = ParseMode.HTML)
     
 #####################
 # Main              #  
