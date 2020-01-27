@@ -20,21 +20,16 @@ def parse_df(df):
 
 def print_df(df):
 
+    # Change date column to string
     if('date' in df.columns):
         df['date'] = df['date'].dt.strftime('%d %b')
     
     msg = []
     for index, row in df.head().iterrows():
         temp_msg = []
+
         for col in df.columns:
             ele = row[col]
-
-            # if(type(ele) is datetime.date):    # Parse date object
-            #     ele = ele.strftime("%d-%Y")
-            # else:
-            #     print(type(ele))
-            #     ele = str(ele)
-
             temp_msg.append(str(ele))  # Join each row
 
         msg.append(', '.join(temp_msg))     # Append to same list
