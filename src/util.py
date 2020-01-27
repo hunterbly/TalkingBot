@@ -18,19 +18,37 @@ def parse_df(df):
         res = err_msg
     return(res)
 
-def print_df(df):
+def print_df(df, bold = None):
 
-    # Change date column to string
+    ####
+    # Manipulate dataframe before concat
+    ####
+
+    # Handle bold input, string/list
+    if bold is not None:
+        if not isinstance(bold, list):
+            bold = [bold]
+    else:
+        bold = []
+            
+    # Change date column to string. Always bold date column
     if('date' in df.columns):
         df['date'] = df['date'].dt.strftime('%d %b')
+        bold.append('date')
+
+    print(bold)
+    # cols = ['table', 'date']
+    # df[cols] = df[cols].apply(lambda x: "<b>{}</b>".format(x))
+    # df[col] = df.apply(lambda x: "<b>{}</b>".format(x) if x.name in col else x)
+    # df[cols] = df[cols].apply(lambda x: "<b>" + x + "</b>")
     
     msg = []
-    for index, row in df.head().iterrows():
+    for index, row in df.iterrows():
         temp_msg = []
 
         for col in df.columns:
-            ele = row[col]
-            temp_msg.append(str(ele))  # Join each row
+            ele = "{}".format(str(row[col]))
+            temp_msg.append(ele)  # Join each row
 
         msg.append(', '.join(temp_msg))     # Append to same list
 
