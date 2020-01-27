@@ -46,6 +46,9 @@ def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
 
+def status(update, context):
+    update.message.reply_text('Hi!')
+    
 #####################
 # Main              #  
 #####################
@@ -60,6 +63,7 @@ def main():
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("test", test))
     dp.add_handler(CommandHandler("testing", testing))
+    dp.add_handler(CommandHandler("status", status))
     
     # Start the Bot
     updater.start_polling()
