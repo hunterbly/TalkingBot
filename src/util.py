@@ -19,6 +19,15 @@ def parse_df(df):
 
 def print_df(df):
 
+    msg = []
     for index, row in df.head().iterrows():
-        print(row['signal_label'])
-    return("")
+        temp_msg = []
+        for col in df.columns:
+            temp_msg.append(str(row[col]))  # Join each row
+
+        msg.append(', '.join(temp_msg))     # Append to same list
+
+    # Join all rows
+    res = '\n'.join(msg)
+    
+    return(res)
