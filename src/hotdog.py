@@ -131,13 +131,13 @@ def check_cronjob():
     Return the latest date of records in the cronjob tables
 
     Args:
-      local (bool): Boolean flag to indicate whether the connection is using Local or Remote IP
+      None
 
     Returns:
       df.res (Dataframe): Dataframe of latest date of cronjob tables
 
     Example:
-      df.res = check_cronjob(local = FALSE)
+      df.res = check_cronjob()
     """
     
     func_name = inspect.stack()[0][3]
