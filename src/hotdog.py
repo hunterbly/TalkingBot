@@ -40,7 +40,7 @@ def convert_dict_format(old_dict):
 
 def json_to_df(json):
 
-    json to dataframe with id column dropped
+    """ json to dataframe with id column dropped """
     
     try:
         df = pd.read_json(json)
@@ -101,8 +101,8 @@ def get_signal_performance(code):
      df = get_hit_signal(code = 1)
    """
 
-  func_name = inspect.stack()[0][3]
-  return(func_name)
+   func_name = inspect.stack()[0][3]
+   return(func_name)
 
 @postit
 def load_hit_signal(ref_date, option_only = True):
@@ -124,3 +124,21 @@ def load_hit_signal(ref_date, option_only = True):
     
   func_name = inspect.stack()[0][3]
   return(func_name)
+
+@postit
+def check_cronjob():
+    """
+    Return the latest date of records in the cronjob tables
+
+    Args:
+      local (bool): Boolean flag to indicate whether the connection is using Local or Remote IP
+
+    Returns:
+      df.res (Dataframe): Dataframe of latest date of cronjob tables
+
+    Example:
+      df.res = check_cronjob(local = FALSE)
+    """
+    
+    func_name = inspect.stack()[0][3]
+    return(func_name)
