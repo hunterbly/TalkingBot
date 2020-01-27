@@ -36,12 +36,15 @@ def print_df(df, bold = None):
         df['date'] = df['date'].dt.strftime('%d %b')
         bold.append('date')
 
-    print(bold)
-    # cols = ['table', 'date']
-    # df[cols] = df[cols].apply(lambda x: "<b>{}</b>".format(x))
-    # df[col] = df.apply(lambda x: "<b>{}</b>".format(x) if x.name in col else x)
-    # df[cols] = df[cols].apply(lambda x: "<b>" + x + "</b>")
-    
+    # Add bold tag to columns
+    bold_cols = list(set(bold))  # Unique list
+    if (len(bold_cols) >= 1):
+        df[bold_cols] = df[bold_cols].apply(lambda x: "<b>" + x + "</b>")
+
+    ####
+    # Concat dataframe to a string for telegram display
+    ####
+        
     msg = []
     for index, row in df.iterrows():
         temp_msg = []

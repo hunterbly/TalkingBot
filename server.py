@@ -57,7 +57,7 @@ def dummy(update, context):
     # a = ''.join(msg).strip()
 
     df = check_cronjob()
-    msg = print_df(df)
+    msg = print_df(df, bold = ['table', 'date'])
 
     update.message.reply_text(msg, parse_mode = ParseMode.HTML)
     
