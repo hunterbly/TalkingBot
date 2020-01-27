@@ -52,7 +52,10 @@ def status(update, context):
 
 @typing
 def dummy(update, context):
-    update.message.reply_text('Hi!')
+    txt = '\u9999\u6e2f'
+    msg = ''.join(txt).encode('utf-8')
+    print(msg)
+    update.message.reply_text(msg)
     
 #####################
 # Main              #  
