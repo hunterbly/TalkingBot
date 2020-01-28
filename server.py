@@ -48,7 +48,10 @@ def start(update, context):
 
 @typing
 def status(update, context):
-    update.message.reply_text('Hi!')
+    df_status = check_cronjob()
+    msg = print_df(df_status, bold = ['table', 'date'])
+
+    update.message.reply_text(msg, parse_mode = ParseMode.HTML)
 
 @typing
 def dummy(update, context):
