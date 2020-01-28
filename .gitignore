@@ -106,3 +106,7 @@ ENV/
 
 .ftpconfig
 test.py
+
+# emacs
+\#*\#
+.\#*
