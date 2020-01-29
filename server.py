@@ -49,20 +49,19 @@ def start(update, context):
 @typing
 def status(update, context):
     df_status = check_cronjob()
-    msg = print_df(df_status, bold = ['table', 'date'])
+    df_status_str = print_df(df_status, bold = ['table', 'date'])
 
-    update.message.reply_text(msg, parse_mode = ParseMode.HTML)
+    update.message.reply_text(df_status_str, parse_mode = ParseMode.HTML)
 
 @typing
 def dummy(update, context):
 
-    # msg = "\u5927\u967d\u71ed"
-    # a = ''.join(msg).strip()
+    df = load_hit_signal(ref_date = '2020-01-10')
+    df_str = print_df(df)
+    # df = check_cronjob()
+    # msg = print_df(df, bold = ['table', 'date'])
 
-    df = check_cronjob()
-    msg = print_df(df, bold = ['table', 'date'])
-
-    update.message.reply_text(msg, parse_mode = ParseMode.HTML)
+    update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
     
 #####################
 # Main              #  
