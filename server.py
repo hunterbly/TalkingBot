@@ -69,6 +69,15 @@ def dummy(update, context):
 @typing    
 def signal(update, context):
 
+    # Get the first argument as input date
+    input_str = update.message.text
+    if(len(input_str.split()) > 1):
+        input_str = input_str.split()[1]  # First argument
+    else:
+        input_str = None
+
+    ref_date_str = format_input_date(input_str)
+        
     # Create signal mapping dataframe
     mapping = [['s_bull_stick', "\u5927\u967d\u71ed"],
                ['s_bear_stick', "\u5927\u9670\u71ed"],
@@ -85,7 +94,7 @@ def signal(update, context):
     df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
 
     # Load hit signal, map signal label
-    df_signal = load_hit_signal(ref_date = '2020-01-10')
+    df_signal = load_hit_signal(ref_date = ref_date_str)
     df_res = df_signal.merge(df_map, on='signal', how='left')
     df_res = df_res[['code', 'date', 'signal_label']]
     
