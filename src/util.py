@@ -60,8 +60,24 @@ def print_df(df, bold = None):
     
     return(res)
 
-def get_input_date(input = None):
+def format_input_date(input = None):
 
+    """
+    Return date input in YYYY-MM-DD string format. If input is None, return today's date
+
+    Args:
+        input (str): Date in MMDD or YYYYMMDD format. e.g. 0110 or 20200110
+
+    Returns:
+        ref_str (str): Date in string format (YYYY-MM-DD). e.g. 2020-01-20
+
+    Example:
+        ref_str = format_input_date('0120')
+
+    Example output:
+        '2020-01-20'
+    """
+    
     if not input:     # None or empty strings 
         input_str = datetime.date.today().strftime("%Y%m%d")
     else:
