@@ -67,13 +67,38 @@ def dummy(update, context):
     update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
 
 @typing    
+def signal(update, context):
+
+    # Create signal mapping dataframe
+    mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]] 
+    df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
+    df_str = print_df(df_map)
+
+    # Load hit signal, map signal label
+    df_signal = load_hit_signal(ref_date = '2020-01-10')
+    df_res = df_signal.merge(df_map, on='signal', how='left')
+
+    # Print dataframe
+    df_str = print_df(df_res, bold = 'code')
+    
+    update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
+
+
+@typing    
 def hello(update, context):
 
     # Create signal mapping dataframe
-    signal_mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]] 
-    df_signal_map  = pd.DataFrame(signal_mapping, columns = ['signal', 'signal_label'])
-    df_str = print_df(df_signal_map)
+    mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]] 
+    df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
+    df_str = print_df(df_map)
 
+    # Load hit signal, map signal label
+    df_signal = load_hit_signal(ref_date = '2020-01-10')
+    df_res = df_signal.merge(df_map, on='signal', how='left')
+
+    # Print dataframe
+    df_str = print_df(df_res, bold = 'code')
+    
     update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
 
     
@@ -87,14 +112,21 @@ def main():
 
     # Dispatcher add handlers
     dp = updater.dispatcher
+
+    # Some init commands
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+
+    # Dummy commands
     dp.add_handler(CommandHandler("test", test))
     dp.add_handler(CommandHandler("testing", testing))
-    dp.add_handler(CommandHandler("status", status))
     dp.add_handler(CommandHandler("dummy", dummy))
     dp.add_handler(CommandHandler("hello", hello))
-    
+
+    # Real commands
+    dp.add_handler(CommandHandler("status", status))
+    dp.add_handler(CommandHandler("signal", signal))
+
     # Start the Bot
     updater.start_polling()
     updater.idle()
