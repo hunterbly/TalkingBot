@@ -62,6 +62,15 @@ def dummy(update, context):
     # msg = print_df(df, bold = ['table', 'date'])
 
     update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
+
+@typing    
+def hello(update, context):
+    map_data = [['tom', "\u5927\u967d\u71ed"], ['nick', "\u5927\u967d\u71ed"], ['juli', "\u5927\u967d\u71ed"]] 
+    df_map = pd.DataFrame(map_data, columns = ['Name', 'Signal'])
+    df_str = print_df(df_map)
+
+    update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
+
     
 #####################
 # Main              #  
@@ -79,6 +88,7 @@ def main():
     dp.add_handler(CommandHandler("testing", testing))
     dp.add_handler(CommandHandler("status", status))
     dp.add_handler(CommandHandler("dummy", dummy))
+    dp.add_handler(CommandHandler("hello", hello))
     
     # Start the Bot
     updater.start_polling()
