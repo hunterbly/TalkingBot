@@ -60,32 +60,24 @@ def print_df(df, bold = None):
     
     return(res)
 
-def get_input_date(str):
-    print(str)
-    # Try parsing user input 
+def get_input_date(input = None):
 
-    # input_str = update.message.text
+    if not input:     # None or empty strings 
+        input_str = datetime.date.today().strftime("%Y%m%d")
+    else:
+        if(len(input) == 4):   # Assume input in MMDD, append year
+            year = datetime.date.today().year
+            input_str = str(year) + str(input) 
+        else:
+            input_str = input  # Assume input in YYYYMMDD
 
-    # if(len(input_str.split()) > 1):
-    #    input_str = input_str.split()[1]  # First argument
-       
-    # else:
-    #    input_str = date.today().strftime("%Y%m%d")
-       
-    # try:
-    #    ref_date = datetime.strptime(input_str, '%Y%m%d')
-    #    ref_str = ref_date.strftime('%Y-%m-%d')
-       
-    #    df = load_hit_signal(ref_date = ref_str)
+    try:
+       ref_date = datetime.datetime.strptime(input_str, '%Y%m%d')
+       ref_str = ref_date.strftime('%Y-%m-%d')
 
-    #    if isinstance(df, pd.DataFrame):
-    #        table_html = parse_df(df)
-    #        update.message.reply_text(table_html, parse_mode='HTML')
-    #    else:
-    #        err_msg = df.decode("utf-8")
-    #        update.message.reply_text(err_msg)
-       
-    # except Exception as e:
-    #     print(e)
-    #     error = 'Please input date in YYYYMMDD format'
-    #     update.message.reply_text(error)
+       return(ref_str)
+   
+    except Exception as e:
+        print(e)
+        error = 'Error: Please input date in YYYYMMDD format'
+        return(error)

@@ -1,5 +1,6 @@
 import os
 import os.path as op
+import unittest
 
 __all__ = [
     op.splitext(f)[0]  # remove .py extension
