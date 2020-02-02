@@ -57,6 +57,9 @@ def status(update, context):
 def dummy(update, context):
 
     df = load_hit_signal(ref_date = '2020-01-10')
+
+    
+    
     df_str = print_df(df)
     # df = check_cronjob()
     # msg = print_df(df, bold = ['table', 'date'])
@@ -65,9 +68,11 @@ def dummy(update, context):
 
 @typing    
 def hello(update, context):
-    map_data = [['tom', "\u5927\u967d\u71ed"], ['nick', "\u5927\u967d\u71ed"], ['juli', "\u5927\u967d\u71ed"]] 
-    df_map = pd.DataFrame(map_data, columns = ['Name', 'Signal'])
-    df_str = print_df(df_map)
+
+    # Create signal mapping dataframe
+    signal_mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]] 
+    df_signal_map  = pd.DataFrame(signal_mapping, columns = ['signal', 'signal_label'])
+    df_str = print_df(df_signal_map)
 
     update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
 
