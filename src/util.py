@@ -56,7 +56,7 @@ def print_df(df, bold = None):
         msg.append(', '.join(temp_msg))     # Append to same list
 
     # Join all rows
-    res = '\n'.join(msg)
+    res = '\n' + '\n'.join(msg)
     
     return(res)
 
