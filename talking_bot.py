@@ -45,9 +45,7 @@ def start(bot, update):
     update.message.reply_text('Test Hi!')
 
 def testing(bot, update):
-    str_test = "\u5927\u967d\u71ed".encode('utf-8')
-    print(str_test)
-    update.message.reply_text(str_test)
+    update.message.reply_text('testing')
     
 def test(bot, update):
 
@@ -63,7 +61,6 @@ def test(bot, update):
     try:
        ref_date = datetime.strptime(input_str, '%Y%m%d')
        ref_str = ref_date.strftime('%Y-%m-%d')
-       print(ref_str)
        
        df = load_hit_signal(ref_date = ref_str)
 
