@@ -155,6 +155,7 @@ def main():
     # Real commands
     dp.add_handler(CommandHandler("status", status))
     dp.add_handler(CommandHandler("signal", signal))
+    dp.add_handler(CommandHandler("s", signal))       # Overloading with /s command
 
     # Start the Bot
     updater.start_polling()
