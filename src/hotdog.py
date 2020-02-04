@@ -105,7 +105,7 @@ def get_signal_performance(code):
    return(func_name)
 
 @postit
-def load_hit_signal(ref_date, option_only = True):
+def LoadHitSignal(ref_date, option_only = True):
 
   """
   load signal hit history in database.

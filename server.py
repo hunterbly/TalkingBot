@@ -28,7 +28,7 @@ def typing(func):
 #####################
 # Testing           #  
 #####################
-
+@typing
 def test(update, context):
     """Send a message when the command /test is issued."""
 
@@ -58,9 +58,6 @@ def status(update, context):
 def dummy(update, context):
 
     df = load_hit_signal(ref_date = '2020-01-10')
-
-    
-    
     df_str = print_df(df)
     # df = check_cronjob()
     # msg = print_df(df, bold = ['table', 'date'])
@@ -82,7 +79,7 @@ def signal(update, context):
         input_str = None
 
     ref_date_str = format_input_date(input_str)
-    df_signal = load_hit_signal(ref_date = ref_date_str)
+    df_signal = LoadHitSignal(ref_date = ref_date_str)
 
     # If dataframe, else return error message
     if isinstance(df_signal, pd.DataFrame):
