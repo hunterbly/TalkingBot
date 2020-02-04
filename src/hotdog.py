@@ -105,10 +105,31 @@ def get_signal_performance(code):
    return(func_name)
 
 @postit
+def GetSignalPerformance(code, option_only = True):
+
+  """
+  Get signal history performace
+  
+  Args:
+   code (str): Stock code
+   option_only (bool): Specify whether the signal are for option only stocks. Default true
+  
+  Returns:
+   df (Dataframe): 
+  
+  Example:
+    GetSignalPerformance(ref_date = '2020-01-10')
+  """
+    
+  func_name = inspect.stack()[0][3]
+  return(func_name)
+
+
+@postit
 def LoadHitSignal(ref_date, option_only = True):
 
   """
-  load signal hit history in database.
+  Load signal hit history in database.
   Return all or option only signal with wide or long format
   
   Args:
@@ -119,7 +140,7 @@ def LoadHitSignal(ref_date, option_only = True):
    df.signal (Dataframe): Stock price dataframe with calculated signal in the input date only
   
   Example:
-    get_hit_signal(ref_date = '2020-01-10')
+    LoadHitSignal(ref_date = '2020-01-10')
   """
     
   func_name = inspect.stack()[0][3]
