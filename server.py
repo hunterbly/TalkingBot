@@ -40,7 +40,13 @@ def test(update, context):
 @typing
 def testing(update, context):
     """Send a message when the command /testing is issued."""
-    update.message.reply_text('Testing!')
+    s = pd.Series(list('abca'))
+    ss = pd.get_dummies(s)
+
+    b = ss.apply(random_print, axis=1)
+
+    msg = print("\n".join(b.tolist()))
+    update.message.reply_text(msg, parse_mode = ParseMode.HTML)
 
 @typing
 def start(update, context):

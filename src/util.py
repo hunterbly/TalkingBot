@@ -5,6 +5,11 @@ import datetime
 def util_test():
     return("utility")
 
+def random_print(row):
+    test = str(row['a']) + '-' + str(row['b'])
+    return(test)
+
+
 def parse_df(df):
 
     """ 
