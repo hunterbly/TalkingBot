@@ -45,7 +45,9 @@ def testing(update, context):
 
     b = ss.apply(random_print, axis=1)
 
-    msg = print("\n".join(b.tolist()))
+    msg = "\n".join(b.tolist())
+
+    msg = "<u> Something </u> \n\n" + msg
     update.message.reply_text(msg, parse_mode = ParseMode.HTML)
 
 @typing
@@ -152,6 +154,7 @@ def main():
     # Dummy commands
     dp.add_handler(CommandHandler("test", test))
     dp.add_handler(CommandHandler("testing", testing))
+    dp.add_handler(CommandHandler("t", testing))
     dp.add_handler(CommandHandler("dummy", dummy))
     dp.add_handler(CommandHandler("hello", hello))
 
