@@ -29,6 +29,20 @@ def typing(func):
 # Testing           #  
 #####################
 @typing
+def fun(update, context):
+    """Send a message when the command /start is issued."""
+
+    input_str = update.message.text
+    if(len(input_str.split()) > 1):
+        query_str = input_str.split()[1]  # First argument
+    else:
+        query_str = None
+
+    update.message.reply_text(query_str)
+
+
+
+@typing
 def test(update, context):
     """Send a message when the command /test is issued."""
 
@@ -157,6 +171,9 @@ def main():
     dp.add_handler(CommandHandler("t", testing))
     dp.add_handler(CommandHandler("dummy", dummy))
     dp.add_handler(CommandHandler("hello", hello))
+    dp.add_handler(CommandHandler("fun", fun))
+    dp.add_handler(CommandHandler("ff", fun))
+    
 
     # Real commands
     dp.add_handler(CommandHandler("status", status))
