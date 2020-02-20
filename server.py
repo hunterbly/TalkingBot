@@ -5,6 +5,7 @@ from src.util import *
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ChatAction, ParseMode
 import pandas as pd
+import wikipedia
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -36,11 +37,12 @@ def fun(update, context):
     if(len(input_str.split()) > 1):
         query_str = input_str.split()[1]  # First argument
     else:
-        query_str = None
+        query_str = "Apple"
 
-    update.message.reply_text(query_str)
+    res = wikipedia.summary(query_str)
+    res = u''.join(res).encode('utf-8').strip()
 
-
+    update.message.reply_text(res)
 
 @typing
 def test(update, context):
