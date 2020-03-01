@@ -48,7 +48,8 @@ def fun(update, context):
 def test(update, context):
     """Send a message when the command /test is issued."""
 
-    df = load_hit_signal(ref_date = '2020-01-10')
+    df = GetSignalPerformance(code = '2333')
+    df = map_signal(df)
     table_html = print_df(df)
 
     update.message.reply_text(table_html)
