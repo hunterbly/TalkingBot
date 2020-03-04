@@ -141,12 +141,30 @@ def map_signal(df):
                    ['s_bull_pierce', "\u66d9\u5149\u521d\u73fe"],
                    ['s_bear_pierce', "\u70cf\u96f2\u84cb\u9802"],
                    ['s_hammer', "\u939a\u982d"],
-                   ['s_shooting_star', "\u5c04\u64ca\u4e4b\u661f"]] 
-        df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
+                   ['s_shooting_star', "\u5c04\u64ca\u4e4b\u661f"]]
 
-        # Load hit signal, map signal label
-        df_res = df.merge(df_map, on='signal', how='left')
+        # df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
+        # # Load hit signal, map signal label
+        # df_res = df.merge(df_map, on='signal', how='left')
+        
+        mapping_dict = {
+            "s_bull_stick": "\u5927\u967d\u71ed",
+            "s_bear_stick": "\u5927\u9670\u71ed",
+            "s_bull_engulf": "\u5411\u597d\u541e\u566c",
+            "s_bear_engulf": "\u5411\u6de1\u541e\u566c",
+            "s_bull_harami": "\u5411\u597d\u8eab\u61f7\u516d\u7532",
+            "s_bear_harami": "\u5411\u6de1\u8eab\u61f7\u516d\u7532",
+            "s_2day_reverse_good": "\u5411\u597d\u96d9\u65e5\u8f49\u5411",
+            "s_2day_reverse_bad": "\u5411\u6de1\u96d9\u65e5\u8f49\u5411",
+            "s_bull_pierce": "\u66d9\u5149\u521d\u73fe",
+            "s_bear_pierce": "\u70cf\u96f2\u84cb\u9802",
+            "s_hammer": "\u939a\u982d",
+            "s_shooting_star": "\u5c04\u64ca\u4e4b\u661f"
+            
+        }
 
+        df_res = df.replace({"signal": mapping_dict})
+        
     else:
         stop_quietly("Invalid input")
 
