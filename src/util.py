@@ -65,6 +65,25 @@ def print_df(df, bold = None):
     
     return(res)
 
+def print_history_df(df):
+    
+    ####
+    # Print code and signal first (Group by columns)
+    ####
+    first_row = df.iloc[0]
+    code = str(first_row['code'])
+    signal = str(first_row['signal'])
+    signal_index = str(first_row['signal_index'])
+    # print(f"{code} - {signal} ({signal_index})")
+
+    small_df = df[['date', 'day.0', 'day.1', 'day.2', 'day.3', 'day.4', 'day.5', 'success']]
+    a = small_df.apply(lambda x: tabulate(x.transpose().to_frame()), axis = 1, result_type='expand')
+    b = a.tolist()
+    bb = '\n'.join(b)
+    # print(tabulate(small_df.transpose()))
+    
+    return(bb)
+
 def format_input_date(input = None):
 
     """

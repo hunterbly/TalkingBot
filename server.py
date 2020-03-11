@@ -82,11 +82,10 @@ def status(update, context):
 @typing
 def dummy(update, context):
 
-    df = load_hit_signal(ref_date = '2020-01-10')
-    df_str = print_df(df)
-    # df = check_cronjob()
-    # msg = print_df(df, bold = ['table', 'date'])
-
+    df = GetSignalPerformance(code = '2333')
+    df = map_signal(df)
+    df_str = print_history_df(df)
+    
     update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
 
 #####################
