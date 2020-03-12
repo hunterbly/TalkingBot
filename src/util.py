@@ -65,6 +65,23 @@ def print_df(df, bold = None):
     
     return(res)
 
+def parse_telegram_input(telegram_input, num = 1):
+
+    """ Turn telegram input text to multiple variables """
+    
+    list_param = telegram_input.split()
+    len_param  = len(list_param)                    # Number of parameters  
+    n = len_param if num >= len_param else num      # Handle input too long
+
+    # Python list is not inclusive
+    res = tuple(list_param[1:n+1])
+
+    # If single value return first instead of tuple
+    if(len(res) == 1):
+        res = res[0]
+    
+    return(res)
+
 def print_history_df(df):
     
     ####

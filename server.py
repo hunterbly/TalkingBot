@@ -75,11 +75,10 @@ def start(update, context):
 @typing
 def dummy(update, context):
 
-    df_history = GetSignalPerformance(code = '2333')
-    df_history = map_signal(df_history)
+    input_str = update.message.text
+    logger.info(input_str)
 
-    df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
-    res_str = '\n'.join(df_history_str.tolist())
+    res_str = parse_telegram_input(input_str, 1)
 
     update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
 
@@ -100,13 +99,9 @@ def signal(update, context):
 
     # Get the first argument as input date
     input_str = update.message.text
-    logger.info(input_str)
-    if(len(input_str.split()) > 1):
-        input_str = input_str.split()[1]  # First argument
-    else:
-        input_str = None
-
+    input_str = parse_telegram_input(input_str, 1)
     ref_date_str = format_input_date(input_str)
+    
     df_signal = LoadHitSignal(ref_date = ref_date_str)
 
     # If dataframe, else return error message
