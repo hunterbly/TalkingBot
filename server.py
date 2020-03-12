@@ -73,24 +73,27 @@ def start(update, context):
     update.message.reply_text('Hi!')
 
 @typing
+def dummy(update, context):
+
+    df_history = GetSignalPerformance(code = '2333')
+    df_history = map_signal(df_history)
+
+    df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
+    res_str = '\n'.join(df_history_str.tolist())
+
+    update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
+
+#####################
+# Real commands     #  
+#####################
+
+@typing
 def status(update, context):
     df_status = check_cronjob()
     df_status_str = print_df(df_status, bold = ['table', 'date'])
 
     update.message.reply_text(df_status_str, parse_mode = ParseMode.HTML)
 
-@typing
-def dummy(update, context):
-
-    df = GetSignalPerformance(code = '2333')
-    df = map_signal(df)
-    df_str = print_history_df(df)
-    
-    update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
-
-#####################
-# Real commands     #  
-#####################
 
 @typing    
 def signal(update, context):
@@ -120,6 +123,18 @@ def signal(update, context):
     else:
         err = df_signal.decode("utf-8")
         update.message.reply_text(err, parse_mode = ParseMode.HTML)
+
+@typing
+def history(update, context):
+
+    df_history = GetSignalPerformance(code = '2333')
+    df_history = map_signal(df_history)
+
+    df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
+    res_str = '\n'.join(df_history_str.tolist())
+
+    update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
+
         
 @typing    
 def hello(update, context):
@@ -166,7 +181,12 @@ def main():
     # Real commands
     dp.add_handler(CommandHandler("status", status))
     dp.add_handler(CommandHandler("signal", signal))
+    dp.add_handler(CommandHandler("history", history))
+
+    # Overload command
     dp.add_handler(CommandHandler("s", signal))       # Overloading with /s command
+    dp.add_handler(CommandHandler("h", history))      # Overloading with /h command
+    
 
     # Start the Bot
     updater.start_polling()

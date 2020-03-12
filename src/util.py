@@ -76,7 +76,6 @@ def print_history_df(df):
     signal_index = str(first_row['signal_index'])
     header_str = (f"\n<b>{code} - {signal} ({signal_index})</b>\n")
     
-
     small_df = df[['date', 'day.0', 'day.1', 'day.2', 'day.3', 'day.4', 'day.5', 'success']]
     a = small_df.apply(lambda x: tabulate(x.transpose().to_frame()), axis = 1, result_type='expand')
     b = [header_str] + a.tolist()
