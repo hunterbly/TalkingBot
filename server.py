@@ -1,4 +1,4 @@
-import logging
+from src.logger import setup_logger
 from functools import wraps
 from src.hotdog import *
 from src.util import *
@@ -115,7 +115,13 @@ def signal(update, context):
 @typing
 def history(update, context):
 
-    df_history = GetSignalPerformance(code = '2333')
+    # Get the first argument as stock code
+    input_str = update.message.text
+    code = parse_telegram_input(input_str, 1)
+    # logger.info(f"Code = {code}")
+
+    
+    df_history = GetSignalPerformance(code = code)
     df_history = map_signal(df_history)
 
     df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
