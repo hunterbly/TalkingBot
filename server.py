@@ -7,12 +7,6 @@ from telegram import ChatAction, ParseMode
 import pandas as pd
 import wikipedia
 
-# Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-
-logger = logging.getLogger(__name__)
-
 #####################
 # Decorator         #  
 #####################
@@ -76,7 +70,6 @@ def start(update, context):
 def dummy(update, context):
 
     input_str = update.message.text
-    logger.info(input_str)
 
     res_str = parse_telegram_input(input_str, 1)
 

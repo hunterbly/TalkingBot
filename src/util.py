@@ -1,6 +1,18 @@
 from tabulate import tabulate
 import pandas as pd
 import datetime
+from src.logger import setup_logger
+
+def stop_quietly(msg):
+
+    """ Log the parent function and write error message to log """
+    
+    caller_func = inspect.stack()[1][3]
+    err_msg = f"Exit in function {caller_func} - {msg}"
+    logger.warning(err_msg)
+    
+    sys.exit("\n" + err_msg + "\n")
+
 
 def util_test():
     return("utility")
