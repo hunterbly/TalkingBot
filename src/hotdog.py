@@ -45,6 +45,11 @@ def json_to_df(json):
     try:
         df = pd.read_json(json)
         df.drop(columns=['id'], axis = 1, inplace=True, errors='ignore')  # drop id column if exists
+
+        # Convert datetime columns to date
+        # if 'date' in df.columns:
+        #     df['date'] = df['date'].dt.date
+
     except:
         return(json)  # Return error message from R
     
