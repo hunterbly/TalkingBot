@@ -5,7 +5,7 @@ from src.util import *
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ChatAction, ParseMode
 import pandas as pd
-import wikipedia
+# import wikipedia
 
 #####################
 # Decorator         #  
@@ -27,15 +27,16 @@ def typing(func):
 def fun(update, context):
     """Send a message when the command /start is issued."""
 
-    input_str = update.message.text
-    if(len(input_str.split()) > 1):
-        query_str = input_str.split()[1]  # First argument
-    else:
-        query_str = "Apple"
+    # input_str = update.message.text
+    # if(len(input_str.split()) > 1):
+    #     query_str = input_str.split()[1]  # First argument
+    # else:
+    #     query_str = "Apple"
 
-    res = wikipedia.summary(query_str)
-    res = u''.join(res).encode('utf-8').strip()
-
+    # res = wikipedia.summary(query_str)
+    # res = u''.join(res).encode('utf-8').strip()
+    res = 'ABC'
+    
     update.message.reply_text(res)
 
 @typing
