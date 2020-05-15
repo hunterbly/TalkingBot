@@ -8,20 +8,22 @@ import pandas as pd
 # import wikipedia
 
 #####################
-# Decorator         #  
+# Decorator         #
 #####################
 def typing(func):
     """Sends typing action while processing func command."""
 
     @wraps(func)
     def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
+
+        context.bot.send_chat_action(chat_id=update.effective_message.chat_id,
+                                     action=ChatAction.TYPING)
         return func(update, context,  *args, **kwargs)
 
     return command_func
 
 #####################
-# Testing           #  
+# Testing           #
 #####################
 @typing
 def fun(update, context):
@@ -36,14 +38,15 @@ def fun(update, context):
     # res = wikipedia.summary(query_str)
     # res = u''.join(res).encode('utf-8').strip()
     res = 'ABC'
-    
+
     update.message.reply_text(res)
+
 
 @typing
 def test(update, context):
     """Send a message when the command /test is issued."""
 
-    df = GetSignalPerformance(code = '2333')
+    df = GetSignalPerformance(code='2333')
     df = map_signal(df)
     table_html = print_df(df)
 
@@ -62,10 +65,12 @@ def testing(update, context):
     msg = "<u> Something </u> \n\n" + msg
     update.message.reply_text(msg, parse_mode = ParseMode.HTML)
 
+
 @typing
 def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Hi!')
+
 
 @typing
 def dummy(update, context):
@@ -77,7 +82,7 @@ def dummy(update, context):
     update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
 
 #####################
-# Real commands     #  
+# Real commands     #
 #####################
 
 @typing
@@ -88,15 +93,15 @@ def status(update, context):
     update.message.reply_text(df_status_str, parse_mode = ParseMode.HTML)
 
 
-@typing    
+@typing
 def signal(update, context):
 
     # Get the first argument as input date
     input_str = update.message.text
     input_str = parse_telegram_input(input_str, 1)
     ref_date_str = format_input_date(input_str)
-    
-    df_signal = LoadHitSignal(ref_date = ref_date_str)
+
+    df_signal = LoadHitSignal(ref_date=ref_date_str)
 
     # If dataframe, else return error message
     if isinstance(df_signal, pd.DataFrame):
@@ -107,11 +112,12 @@ def signal(update, context):
         # Print dataframe
         df_str = print_df(df_res)
 
-        update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
+        update.message.reply_text(df_str, parse_mode=ParseMode.HTML)
 
     else:
         err = df_signal.decode("utf-8")
-        update.message.reply_text(err, parse_mode = ParseMode.HTML)
+        update.message.reply_text(err, parse_mode=ParseMode.HTML)
+
 
 @typing
 def history(update, context):
@@ -121,8 +127,8 @@ def history(update, context):
     code = parse_telegram_input(input_str, 1)
     # logger.info(f"Code = {code}")
 
-    
-    df_history = GetSignalPerformance(code = code)
+
+    df_history = GetSignalPerformance(code=code)
     df_history = map_signal(df_history)
 
     df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
@@ -130,31 +136,31 @@ def history(update, context):
 
     update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
 
-        
-@typing    
+
+@typing
 def hello(update, context):
 
     # Create signal mapping dataframe
-    mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]] 
-    df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
+    mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]]
+    df_map  = pd.DataFrame(mapping, columns=['signal', 'signal_label'])
 
     # Load hit signal, map signal label
-    df_signal = load_hit_signal(ref_date = '2020-01-10')
+    df_signal = load_hit_signal(ref_date='2020-01-10')
     df_res = df_signal.merge(df_map, on='signal', how='left')
 
     # Print dataframe
     df_str = print_df(df_res)
-    
+
     update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
 
-    
+
 #####################
-# Main              #  
+# Main              #
 #####################
-    
+
 
 def main():
-    updater = Updater("589160362:AAHEeNBIeh3m3RA07lANaDHovy874xNFi1g", use_context = True)
+    updater = Updater("589160362:AAHEeNBIeh3m3RA07lANaDHovy874xNFi1g", use_context=True)
 
     # Dispatcher add handlers
     dp = updater.dispatcher
@@ -171,7 +177,6 @@ def main():
     dp.add_handler(CommandHandler("hello", hello))
     dp.add_handler(CommandHandler("fun", fun))
     dp.add_handler(CommandHandler("ff", fun))
-    
 
     # Real commands
     dp.add_handler(CommandHandler("status", status))
@@ -181,7 +186,6 @@ def main():
     # Overload command
     dp.add_handler(CommandHandler("s", signal))       # Overloading with /s command
     dp.add_handler(CommandHandler("h", history))      # Overloading with /h command
-    
 
     # Start the Bot
     updater.start_polling()
@@ -189,4 +193,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
