@@ -107,6 +107,7 @@ ENV/
 .ftpconfig
 test.py
 dummy.py
+todo.txt
 
 # emacs
 \#*\#

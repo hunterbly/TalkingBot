@@ -83,6 +83,7 @@ def dummy(update, context):
 # Real commands     #
 #####################
 
+
 @typing
 def status(update, context):
     df_status = check_cronjob()
@@ -145,10 +146,22 @@ def hello(update, context):
 @typing
 def todo(update, context):
 
-    with open('todo.txt', 'r') as myfile:
-        data = myfile.read()
+    """ Simply display content in the todo file or add new append new ones for review"""
 
-    update.message.reply_text(data, parse_mode=ParseMode.HTML)
+    # Get the todo input if provided
+    input_str = update.message.text
+    input_str = parse_telegram_input(input_str, None)
+    task = " ".join(input_str)   # string without /todo
+
+    if task == '':        # Simply list the content
+        with open('todo.txt', 'r') as myfile:
+            data = myfile.read()
+
+        update.message.reply_text(data, parse_mode=ParseMode.HTML)
+
+    else:         # Append task to the file
+        msg = "Added task for review - {}".format(task)
+        update.message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 #####################
