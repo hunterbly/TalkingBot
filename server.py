@@ -155,12 +155,20 @@ def todo(update, context):
 
     if task == '':        # Simply list the content
         with open('todo.txt', 'r') as myfile:
-            data = myfile.read()
+            all_tasks = myfile.read()
 
-        update.message.reply_text(data, parse_mode=ParseMode.HTML)
+        update.message.reply_text(all_tasks, parse_mode=ParseMode.HTML)
 
     else:         # Append task to the file
-        msg = "Added task for review - {}".format(task)
+        num_lines = sum(1 for line in open('todo.txt'))
+        if (num_lines >= 100):
+            msg = "Too much work to do. skipped"
+        else:
+            with open('todo.txt', 'a') as _file:
+                _file.write("- ".format(task))
+
+            msg = "Added task for review - {}".format(task)
+
         update.message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
