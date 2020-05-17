@@ -1,15 +1,20 @@
 from src.logger import setup_logger
 from functools import wraps
-from src.hotdog import *
-from src.util import *
+from src.hotdog import GetSignalPerformance, check_cronjob, LoadHitSignal
+
+from src.util import parse_telegram_input, map_signal, print_df, random_print, \
+                     format_input_date, print_history_df
+
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ChatAction, ParseMode
 import pandas as pd
-# import wikipedia
+
 
 #####################
 # Decorator         #
 #####################
+
+
 def typing(func):
     """Sends typing action while processing func command."""
 
@@ -29,14 +34,6 @@ def typing(func):
 def fun(update, context):
     """Send a message when the command /start is issued."""
 
-    # input_str = update.message.text
-    # if(len(input_str.split()) > 1):
-    #     query_str = input_str.split()[1]  # First argument
-    # else:
-    #     query_str = "Apple"
-
-    # res = wikipedia.summary(query_str)
-    # res = u''.join(res).encode('utf-8').strip()
     res = 'ABC'
 
     update.message.reply_text(res)
@@ -52,6 +49,7 @@ def test(update, context):
 
     update.message.reply_text(table_html)
 
+
 @typing
 def testing(update, context):
     """Send a message when the command /testing is issued."""
@@ -63,7 +61,7 @@ def testing(update, context):
     msg = "\n".join(b.tolist())
 
     msg = "<u> Something </u> \n\n" + msg
-    update.message.reply_text(msg, parse_mode = ParseMode.HTML)
+    update.message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 @typing
@@ -79,7 +77,7 @@ def dummy(update, context):
 
     res_str = parse_telegram_input(input_str, 1)
 
-    update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
+    update.message.reply_text(res_str, parse_mode=ParseMode.HTML)
 
 #####################
 # Real commands     #
@@ -127,31 +125,21 @@ def history(update, context):
     code = parse_telegram_input(input_str, 1)
     # logger.info(f"Code = {code}")
 
-
     df_history = GetSignalPerformance(code=code)
     df_history = map_signal(df_history)
 
     df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
     res_str = '\n'.join(df_history_str.tolist())
 
-    update.message.reply_text(res_str, parse_mode = ParseMode.HTML)
+    update.message.reply_text(res_str, parse_mode=ParseMode.HTML)
 
 
 @typing
 def hello(update, context):
 
-    # Create signal mapping dataframe
-    mapping = [['s_bear_stick', "\u5927\u967d\u71ed"]]
-    df_map  = pd.DataFrame(mapping, columns=['signal', 'signal_label'])
+    df_str = "Hello"
 
-    # Load hit signal, map signal label
-    df_signal = load_hit_signal(ref_date='2020-01-10')
-    df_res = df_signal.merge(df_map, on='signal', how='left')
-
-    # Print dataframe
-    df_str = print_df(df_res)
-
-    update.message.reply_text(df_str, parse_mode = ParseMode.HTML)
+    update.message.reply_text(df_str, parse_mode=ParseMode.HTML)
 
 
 #####################
