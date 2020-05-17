@@ -144,9 +144,11 @@ def hello(update, context):
 
 @typing
 def todo(update, context):
-    res = "Todo"
 
-    update.message.reply_text(res, parse_mode=ParseMode.HTML)
+    with open('todo.txt', 'r') as myfile:
+        data = myfile.read()
+
+    update.message.reply_text(data, parse_mode=ParseMode.HTML)
 
 
 #####################
