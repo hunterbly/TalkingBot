@@ -6,11 +6,11 @@ from src.logger import setup_logger
 def stop_quietly(msg):
 
     """ Log the parent function and write error message to log """
-    
+
     caller_func = inspect.stack()[1][3]
     err_msg = f"Exit in function {caller_func} - {msg}"
     logger.warning(err_msg)
-    
+
     sys.exit("\n" + err_msg + "\n")
 
 
@@ -24,8 +24,8 @@ def random_print(row):
 
 def parse_df(df):
 
-    """ 
-    parse dataframe to tabula format to be displayed in telegram 
+    """
+    parse dataframe to tabula format to be displayed in telegram
     """
     if isinstance(df, pd.DataFrame):
         res = tabulate(df, tablefmt = "psql", headers="keys", showindex="never")
@@ -47,7 +47,7 @@ def print_df(df, bold = None):
             bold = [bold]
     else:
         bold = []
-            
+
     # Change date column to string. Always bold date column
     if('date' in df.columns):
         df['date'] = df['date'].dt.strftime('%d %b')
@@ -61,7 +61,7 @@ def print_df(df, bold = None):
     ####
     # Concat dataframe to a string for telegram display
     ####
-        
+
     msg = []
     for index, row in df.iterrows():
         temp_msg = []
@@ -74,15 +74,22 @@ def print_df(df, bold = None):
 
     # Join all rows
     res = '\n' + '\n'.join(msg)
-    
+
     return(res)
 
-def parse_telegram_input(telegram_input, num = 1):
+
+def parse_telegram_input(telegram_input, num=None):
 
     """ Turn telegram input text to multiple variables """
-    
+
     list_param = telegram_input.split()
-    len_param  = len(list_param)                    # Number of parameters  
+    len_param  = len(list_param)                    # Number of parameters
+
+    if (num is None):
+        num = len_param
+    else:
+        num = num
+
     n = len_param if num >= len_param else num      # Handle input too long
 
     # Python list is not inclusive
@@ -91,11 +98,12 @@ def parse_telegram_input(telegram_input, num = 1):
     # If single value return first instead of tuple
     if(len(res) == 1):
         res = res[0]
-    
+
     return(res)
 
+
 def print_history_df(df):
-    
+
     ####
     # Print code and signal first (Group by columns)
     ####
@@ -104,13 +112,13 @@ def print_history_df(df):
     signal = str(first_row['signal'])
     signal_index = str(first_row['signal_index'])
     header_str = (f"\n<b>{code} - {signal} ({signal_index})</b>\n")
-    
+
     small_df = df[['date', 'day.0', 'day.1', 'day.2', 'day.3', 'day.4', 'day.5', 'success']]
     a = small_df.apply(lambda x: tabulate(x.transpose().to_frame()), axis = 1, result_type='expand')
     b = [header_str] + a.tolist()
-    
+
     bb = '\n'.join(b)
-    
+
     return(bb)
 
 def format_input_date(input = None):
@@ -130,13 +138,13 @@ def format_input_date(input = None):
     Example output:
         '2020-01-20'
     """
-    
-    if not input:     # None or empty strings 
+
+    if not input:     # None or empty strings
         input_str = datetime.date.today().strftime("%Y%m%d")
     else:
         if(len(input) == 4):   # Assume input in MMDD, append year
             year = datetime.date.today().year
-            input_str = str(year) + str(input) 
+            input_str = str(year) + str(input)
         else:
             input_str = input  # Assume input in YYYYMMDD
 
@@ -145,20 +153,20 @@ def format_input_date(input = None):
        ref_str = ref_date.strftime('%Y-%m-%d')
 
        return(ref_str)
-   
+
     except Exception as e:
         print(e)
         error = 'Error: Please input date in YYYYMMDD format'
         return(error)
 
 def map_signal(df):
-    
+
     """
     Map signal column to some utf readable names
 
     Args:
 	df (Dataframe):
-	
+
     Returns:
 	res (Dataframe):
 
@@ -172,10 +180,10 @@ def map_signal(df):
 
     TODO:
         Check column 'signal' exists first
-    
-    
+
+
     """
-    
+
     if isinstance(df, pd.DataFrame):
         # Create signal mapping dataframe
         mapping = [['s_bull_stick', "\u5927\u967d\u71ed"],
@@ -194,7 +202,7 @@ def map_signal(df):
         # df_map  = pd.DataFrame(mapping, columns = ['signal', 'signal_label'])
         # # Load hit signal, map signal label
         # df_res = df.merge(df_map, on='signal', how='left')
-        
+
         mapping_dict = {
             "s_bull_stick": "\u5927\u967d\u71ed",
             "s_bear_stick": "\u5927\u9670\u71ed",
@@ -208,11 +216,11 @@ def map_signal(df):
             "s_bear_pierce": "\u70cf\u96f2\u84cb\u9802",
             "s_hammer": "\u939a\u982d",
             "s_shooting_star": "\u5c04\u64ca\u4e4b\u661f"
-            
+
         }
 
         df_res = df.replace({"signal": mapping_dict})
-        
+
     else:
         stop_quietly("Invalid input")
 
