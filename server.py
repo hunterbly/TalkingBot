@@ -142,6 +142,13 @@ def hello(update, context):
     update.message.reply_text(df_str, parse_mode=ParseMode.HTML)
 
 
+@typing
+def todo(update, context):
+    res = "Todo"
+
+    update.message.reply_text(res, parse_mode=ParseMode.HTML)
+
+
 #####################
 # Main              #
 #####################
@@ -170,6 +177,8 @@ def main():
     dp.add_handler(CommandHandler("status", status))
     dp.add_handler(CommandHandler("signal", signal))
     dp.add_handler(CommandHandler("history", history))
+    dp.add_handler(CommandHandler("todo", todo))
+
 
     # Overload command
     dp.add_handler(CommandHandler("s", signal))       # Overloading with /s command
