@@ -86,7 +86,7 @@ def postit(method):
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
         # Send request to R OpenCPU server
-        response = requests.request("POST", url, headers=headers, data = payload)
+        response = requests.request("POST", url, headers=headers, data=payload)
         res = response.text.encode('utf8')
         # res = response.text
 
@@ -139,6 +139,7 @@ def LoadHitSignal(ref_date, option_only=True):
 
 @postit
 def check_cronjob():
+
     """
     Return the latest date of records in the cronjob tables
 
