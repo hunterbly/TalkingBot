@@ -2,7 +2,11 @@ from tabulate import tabulate
 import pandas as pd
 import datetime
 from src.logger import setup_logger
+import sys
 import inspect
+
+__all__ = 'Util'
+logger = setup_logger(__all__)
 
 
 def stop_quietly(msg):
