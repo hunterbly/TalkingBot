@@ -124,12 +124,14 @@ def history(update, context):
     # Get the first argument as stock code
     input_str = update.message.text
     code = parse_telegram_input(input_str, 1)
-    # logger.info(f"Code = {code}")
 
     df_history = GetSignalPerformance(code=code)
     df_history = map_signal(df_history)
 
-    df_history_str = df_history.groupby(['signal']).apply(lambda ss: print_history_df(ss))
+    # Add sorting so the latest signal is at the top
+    df_history = df_history.sort_values(by=['date'], ascending=False).reset_index(drop=True, inplace=False)
+
+    df_history_str = df_history.groupby(['signal'], sort=False).apply(lambda ss: print_history_df(ss))
     res_str = '\n'.join(df_history_str.tolist())
 
     update.message.reply_text(res_str, parse_mode=ParseMode.HTML)
