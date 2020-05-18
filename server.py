@@ -130,7 +130,7 @@ def history(update, context):
 
     # Add sorting so the latest signal is at the top
     df_history = df_history.sort_values(by=['date'], ascending=False).reset_index(drop=True, inplace=False)
-    df_history['date'] = df_history['date'].apply(lambda x: x.strftime("%d-%b-%y"))  # Date to string
+    df_history['date'] = df_history['date'].apply(lambda x: x.strftime("%d-%b-%Y"))  # Date to string
 
     df_history_str = df_history.groupby(['signal'], sort=False).apply(lambda ss: print_history_df(ss))
     res_str = '\n'.join(df_history_str.tolist())
@@ -206,7 +206,6 @@ def main():
     dp.add_handler(CommandHandler("signal", signal))
     dp.add_handler(CommandHandler("history", history))
     dp.add_handler(CommandHandler("todo", todo))
-
 
     # Overload command
     dp.add_handler(CommandHandler("s", signal))       # Overloading with /s command
