@@ -2,6 +2,12 @@ from tabulate import tabulate
 import pandas as pd
 import datetime
 from src.logger import setup_logger
+import sys
+import inspect
+
+__all__ = 'Util'
+logger = setup_logger(__all__)
+
 
 def stop_quietly(msg):
 
@@ -17,6 +23,7 @@ def stop_quietly(msg):
 def util_test():
     return("utility")
 
+
 def random_print(row):
     test = str(row['a']) + '-' + str(row['b'])
     return(test)
@@ -28,14 +35,15 @@ def parse_df(df):
     parse dataframe to tabula format to be displayed in telegram
     """
     if isinstance(df, pd.DataFrame):
-        res = tabulate(df, tablefmt = "psql", headers="keys", showindex="never")
+        res = tabulate(df, tablefmt="psql", headers="keys", showindex="never")
         res = "<pre>{}</pre>".format(res)
     else:
         err_msg = df
         res = err_msg
     return(res)
 
-def print_df(df, bold = None):
+
+def print_df(df, bold=None):
 
     ####
     # Manipulate dataframe before concat
@@ -121,7 +129,8 @@ def print_history_df(df):
 
     return(bb)
 
-def format_input_date(input = None):
+
+def format_input_date(input=None):
 
     """
     Return date input in YYYY-MM-DD string format. If input is None, return today's date
@@ -149,15 +158,16 @@ def format_input_date(input = None):
             input_str = input  # Assume input in YYYYMMDD
 
     try:
-       ref_date = datetime.datetime.strptime(input_str, '%Y%m%d')
-       ref_str = ref_date.strftime('%Y-%m-%d')
+        ref_date = datetime.datetime.strptime(input_str, '%Y%m%d')
+        ref_str = ref_date.strftime('%Y-%m-%d')
 
-       return(ref_str)
+        return(ref_str)
 
     except Exception as e:
         print(e)
         error = 'Error: Please input date in YYYYMMDD format'
         return(error)
+
 
 def map_signal(df):
 
@@ -165,13 +175,13 @@ def map_signal(df):
     Map signal column to some utf readable names
 
     Args:
-	df (Dataframe):
+        df (Dataframe):
 
     Returns:
-	res (Dataframe):
+        res (Dataframe):
 
     Example:
-	res = map_signal(df)
+        res = map_signal(df)
 
     Example output:
 
@@ -223,6 +233,5 @@ def map_signal(df):
 
     else:
         stop_quietly("Invalid input")
-
 
     return(df_res)
