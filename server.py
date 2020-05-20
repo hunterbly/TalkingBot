@@ -108,6 +108,10 @@ def signal(update, context):
         # map signal key to signal_label
         df_res = map_signal(df_signal)
 
+        # Add label as singal [strength], e.g. 大陽燭 [108], select columns only
+        df_res['signal_label'] = df_res.apply(lambda x: x.signal + " (" + str(x.signal_index) + ")", axis=1)
+        df_res = df_res[['code', 'date', 'signal_label']]
+
         # Print dataframe
         df_str = print_df(df_res)
 
