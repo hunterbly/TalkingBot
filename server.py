@@ -146,8 +146,9 @@ def history(update, context):
 def hello(update, context):
 
     df_str = "Hello"
-
+    context.bot.send_photo(chat_id=-294841384, photo=open('test.png', 'rb'))
     update.message.reply_text(df_str, parse_mode=ParseMode.HTML)
+
 
 
 @typing
