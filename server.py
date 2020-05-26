@@ -132,6 +132,9 @@ def history(update, context):
     df_history = GetSignalPerformance(code=code)
     df_history = map_signal(df_history)
 
+    # TODO
+    df_history = df_history.head(20)
+
     # Add sorting so the latest signal is at the top
     df_history = df_history.sort_values(by=['date'], ascending=False).reset_index(drop=True, inplace=False)
     df_history['date'] = df_history['date'].apply(lambda x: x.strftime("%d-%b-%Y"))  # Date to string
