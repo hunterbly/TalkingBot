@@ -5,6 +5,7 @@ from src.logger import setup_logger
 import sys
 import inspect
 import re
+import numpy as np
 
 __all__ = 'Util'
 logger = setup_logger(__all__)
@@ -116,9 +117,12 @@ def print_history_df(df):
     ####
     # Print code and signal first (Group by columns)
     ####
-
     first_row = df.iloc[0]
     code = str(first_row['code'])
+
+    # Create reference date
+    ref_year = datetime.date.today().year - 2    # Reference year set as 2 years ago
+    ref_date = datetime.datetime(year=ref_year, month=1, day=1)
 
     if ('signal' in first_row.keys()):
         signal = str(first_row['signal'])
@@ -128,14 +132,27 @@ def print_history_df(df):
     signal_index = str(first_row['signal_index'])
     header_str = (f"\n<b>{code} - {signal} ({signal_index})</b>\n")
 
-    small_df = df[['date', 'day.0', 'day.1', 'day.2', 'day.3', 'day.4', 'day.5', 'success']]
+    # Seperate into two dataframe, one for recent (within 2 years), one for older (> 2 years)
+    df_recent = df[df.date >= ref_date]
+    df_old = df[df.date < ref_date]
 
-    a = small_df.apply(lambda x: tabulate(x.transpose().to_frame()), axis=1, result_type='expand')
+    # remove old
+    df_old['day.0'] = np.nan
+    df_old['day.1'] = np.nan
+    df_old['day.2'] = np.nan
+    df_old['day.3'] = np.nan
+    df_old['day.4'] = np.nan
+    df_old['day.5'] = np.nan
 
-    # replace nan rows
-    d = [re.sub(r'day.\d\s*nan\n', '', x) for x in a]
-    b = [header_str] + d
+    df_res = df_recent.append(df_old, ignore_index=True)
 
+    # Recent
+    df_res['date'] = df_res['date'].apply(lambda x: x.strftime("%d-%b-%Y"))  # Date to string
+    small_df = df_res[['date', 'day.0', 'day.1', 'day.2', 'day.3', 'day.4', 'day.5', 'success']]
+    list_recent_tmp = small_df.apply(lambda x: tabulate(x.transpose().to_frame()), axis=1, result_type='expand')
+    list_recent = [re.sub(r'day.\d\s*nan\n', '', x) for x in list_recent_tmp]
+
+    b = [header_str] + list_recent
     bb = '\n'.join(b)
 
     return(bb)
