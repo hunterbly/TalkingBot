@@ -132,15 +132,26 @@ def history(update, context):
     df_history = GetSignalPerformance(code=code)
     df_history = map_signal(df_history)
 
-    # TODO
+    # Print latest version first, and 10 records per signal
     df_history = df_history.sort_values(by=['signal', 'date'], ascending=False).reset_index(drop=True, inplace=False)
-    df_history_latest = df_history.groupby('signal').head(2).reset_index(drop=True)
+    df_history_latest = df_history.groupby('signal').head(3).reset_index(drop=True)
     df_history_latest = df_history_latest.sort_values(by=['date'], ascending=False).reset_index(drop=True, inplace=False)
 
     df_history_str = df_history_latest.groupby(['signal'], sort=False).apply(lambda ss: print_history_df(ss))
     res_str = '\n'.join(df_history_str.tolist())
 
-    update.message.reply_text(res_str, parse_mode=ParseMode.HTML)
+    # Seperate result into two part
+    res = df_history_str.tolist()
+    idx = int(len(res)/2)
+
+    res_str_first = '\n'.join(res[:idx])
+    res_str_second = '\n'.join(res[idx:])
+
+    print(len(res_str_first))
+    print(len(res_str_second))
+
+    update.message.reply_text(res_str_first, parse_mode=ParseMode.HTML)
+    update.message.reply_text(res_str_second, parse_mode=ParseMode.HTML)
 
 
 @typing
