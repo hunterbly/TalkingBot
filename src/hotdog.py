@@ -96,7 +96,7 @@ def postit(method):
 
 
 @postit
-def GetSignalPerformance(code, option_only=True):
+def GetSignalPerformance(code, option_only=True, verbose=False):
     """
     Get signal history performace
 
