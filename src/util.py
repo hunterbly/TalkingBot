@@ -121,7 +121,7 @@ def print_history_df(df):
     code = str(first_row['code'])
 
     # Create reference date
-    ref_year = datetime.date.today().year - 2    # Reference year set as 2 years ago
+    ref_year = datetime.date.today().year - 1    # Reference year set as 1 years ago
     ref_date = datetime.datetime(year=ref_year, month=1, day=1)
 
     if ('signal' in first_row.keys()):
